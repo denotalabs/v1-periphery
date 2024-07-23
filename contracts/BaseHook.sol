@@ -21,81 +21,70 @@ abstract contract BaseHook is IHooks {
     }
 
     function beforeWrite(
-        address /*caller*/,
-        uint256 /*notaId*/,
-        address /*currency*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        uint256 /*instant*/,
-        bytes calldata /*writeData*/
-    ) external virtual override onlyRegistrar returns (uint256) {
+        address caller,
+        NotaState calldata nota,
+        uint256 instant,
+        bytes calldata hookData
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
         // Add hook logic here
-        return 0;
+        return (this.beforeWrite.selector, 0);
     }
 
     function beforeTransfer(
-        address /*caller*/,
-        uint256 /*notaId*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        address /*from*/,
-        address /*to*/,
-        bytes calldata /*transferData*/
-    ) external virtual override onlyRegistrar returns (uint256) {
+        address caller,
+        NotaState calldata nota,
+        address to,
+        bytes calldata hookData
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
         // Add hook logic here
-        return 0;
+        return (this.beforeTransfer.selector, 0);
     }
 
     function beforeFund(
-        address /*caller*/,
-        uint256 /*notaId*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        uint256 /*amount*/,
-        uint256 /*instant*/,
-        bytes calldata /*fundData*/
-    ) external virtual override onlyRegistrar returns (uint256) {
+        address caller,
+        NotaState calldata nota,
+        uint256 amount,
+        uint256 instant,
+        bytes calldata hookData
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
         // Add hook logic here
-        return 0;
+        return (this.beforeFund.selector, 0);
     }
 
     function beforeCash(
-        address /*caller*/,
-        uint256 /*notaId*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        address /*to*/,
-        uint256 /*amount*/,
-        bytes calldata /*cashData*/
-    ) external virtual override onlyRegistrar returns (uint256) {
+        address caller,
+        NotaState calldata nota,
+        address to,
+        uint256 amount,
+        bytes calldata hookData
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
         // Add hook logic here
-        return 0;
+        return (this.beforeCash.selector, 0);
     }
 
     function beforeApprove(
-        address /*caller*/,
-        uint256 /*notaId*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        address /*to*/
-    ) external virtual override onlyRegistrar returns (uint256) {
+        address caller,
+        NotaState calldata nota,
+        address to
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
         // Add hook logic here
-        return 0;
+        return (this.beforeApprove.selector, 0);
     }
 
     function beforeBurn(
         address caller,
-        uint256 notaId,
-        uint256 escrowed,
-        address owner
-    ) external {
+        NotaState calldata nota
+    ) external virtual override onlyRegistrar returns (bytes4) {
         // Add hook logic here
+        return this.beforeBurn.selector;
     }
 
     function beforeTokenURI(
-        uint256 /*tokenId*/
-    ) external view virtual override returns (string memory, string memory) {
-        return ("", "");
+        address caller,
+        NotaState calldata nota
+    ) external view virtual override returns (bytes4, string memory, string memory) {
+        // Add hook logic here
+        return (this.beforeTokenURI.selector, "", "");
     }
 }
 
