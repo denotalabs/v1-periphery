@@ -4,68 +4,44 @@ pragma solidity ^0.8.0;
 import "openzeppelin/utils/Strings.sol";
 import "../../BaseHook.sol";
 
-contract HelloWorldHook is BaseHook {
+contract HelloWorld is BaseHook {
     struct HookData {
         string subject;
         string message;
-        uint256 lastUpdated;
     }
 
     mapping(uint256 => HookData) public hookDatas;
 
-    event MessageUpdated(uint256 indexed notaId, string newMessage);
+    event MessageUpdated(uint256 indexed notaId, string subject, string message);
 
     constructor(address registrar) BaseHook(registrar) {}
 
+    /**
+     * @notice abi.encode(string name, string description, string imageURI, string externalURI);
+     */
     function beforeWrite(
         address /*caller*/,
-        uint256 notaId,
-        address /*currency*/,
-        uint256 /*escrowed*/,
-        address /*owner*/,
+        NotaState calldata nota,
         uint256 /*instant*/,
         bytes calldata hookData
-    ) external override onlyRegistrar returns (uint256) {
-        (string memory title, string memory message) = abi.decode(hookData, (string, string));
+    ) external override returns (bytes4, uint256) {
+        (string memory subject, string memory message) = abi.decode(hookData, (string, string));
 
-        hookDatas[notaId] = HookData(subject, message, block.timestamp);
+        hookDatas[nota.id] = HookData(subject, message);
+        emit MessageUpdated(nota.id, subject, message);
         
-        emit MessageUpdated(notaId, newSubject, message);
-        return 0;
+        return (this.beforeWrite.selector, 0);
     }
 
-    function beforeTransfer(
+    function beforeTokenURI(
         address /*caller*/,
-        uint256 notaId,
-        uint256 /*escrowed*/,
-        address /*owner*/,
-        address /*from*/,
-        address /*to*/,
-        bytes calldata hookData
-    ) external override onlyRegistrar returns (uint256) {
-        if (hookData.length > 0) {
-            (string memory newSubject, string memory newMessage) = abi.decode(hookData, (string, string));
-
-            hookDatas[notaId].subject = newSubject;
-            hookDatas[notaId].message = newMessage;
-            hookDatas[notaId].lastUpdated = block.timestamp;
-
-            emit MessageUpdated(notaId, newSubject, newMessage);
-        }
-        return 0;
-    }
-
-    function beforeTokenURI(uint256 notaId) external view override returns (string memory, string memory) {
-        HookData memory hookData = hookDatas[notaId];
+        NotaState calldata nota
+    ) external view override returns (bytes4, string memory, string memory) {
+        HookData memory hookData = hookDatas[nota.id];
 
         return (
-            string(
-                abi.encodePacked(
-                    ',{"trait_type":"Last Updated","value":"',
-                    Strings.toString(hookData.lastUpdated),
-                    '"}'
-                )
-            ),
+            this.beforeTokenURI.selector,
+            "",
             string(
                 abi.encodePacked(
                     ',"name":"',
