@@ -17,7 +17,7 @@ contract HelloWorld is BaseHook {
     constructor(address registrar) BaseHook(registrar) {}
 
     /**
-     * @notice abi.encode(string name, string description, string imageURI, string externalURI);
+     * @notice abi.encode(string name, string message);
      */
     function beforeWrite(
         address /*caller*/,
@@ -31,6 +31,17 @@ contract HelloWorld is BaseHook {
         emit MessageUpdated(nota.id, subject, message);
         
         return (this.beforeWrite.selector, 0);
+    }
+
+    function beforeCash(
+        address /*caller*/,
+        NotaState calldata nota,
+        address to,
+        uint256 /*amount*/,
+        bytes calldata /*hookData*/
+    ) external virtual override onlyRegistrar returns (bytes4, uint256) {
+        require(to == nota.owner, "Only owner can cash out");
+        return (this.beforeCash.selector, 0);
     }
 
     function beforeTokenURI(
