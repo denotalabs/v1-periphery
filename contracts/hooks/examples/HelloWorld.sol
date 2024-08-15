@@ -5,12 +5,12 @@ import "openzeppelin/utils/Strings.sol";
 import "../../BaseHook.sol";
 
 contract HelloWorld is BaseHook {
-    struct HookData {
+    struct NotaData {
         string subject;
         string message;
     }
 
-    mapping(uint256 => HookData) public hookDatas;
+    mapping(uint256 => NotaData) public notaDatas;
 
     event MessageUpdated(uint256 indexed notaId, string subject, string message);
 
@@ -27,7 +27,7 @@ contract HelloWorld is BaseHook {
     ) external override returns (bytes4, uint256) {
         (string memory subject, string memory message) = abi.decode(hookData, (string, string));
 
-        hookDatas[nota.id] = HookData(subject, message);
+        notaDatas[nota.id] = NotaData(subject, message);
         emit MessageUpdated(nota.id, subject, message);
         
         return (this.beforeWrite.selector, 0);
@@ -48,7 +48,7 @@ contract HelloWorld is BaseHook {
         address /*caller*/,
         NotaState calldata nota
     ) external view override returns (bytes4, string memory, string memory) {
-        HookData memory hookData = hookDatas[nota.id];
+        NotaData memory notaData = notaDatas[nota.id];
 
         return (
             this.beforeTokenURI.selector,
@@ -56,9 +56,9 @@ contract HelloWorld is BaseHook {
             string(
                 abi.encodePacked(
                     ',"name":"',
-                    hookData.subject,
+                    notaData.subject,
                     '","description":"',
-                    hookData.message,
+                    notaData.message,
                     '"'
                 )
             )
