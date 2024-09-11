@@ -9,4 +9,4 @@
 	url = https://github.com/OpenZeppelin/openzeppelin-contracts
 [submodule "lib/denota-protocol"]
 	path = lib/denota-protocol
-	url = https://github.com/denotalabs/denota-protocol
+	url = https://github.com/denotalabs/denota-protocol@v1.0.0-beta
