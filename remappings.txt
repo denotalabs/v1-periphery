@@ -1,4 +1,4 @@
 ds-test/=lib/forge-std/lib/ds-test/src/
 forge-std/=lib/forge-std/src/
 openzeppelin/=lib/openzeppelin-contracts/contracts
-denota-protocol/=lib/denota-protocol/contracts/
+denota-protocol/=lib/denota-protocol/
