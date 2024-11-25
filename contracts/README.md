@@ -35,7 +35,7 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 #### Use-cases
 - Minimize trust by having a default unlock/return of funds after some expiration date
 
-### Conditional Logic
+### External Contract Conditions
 
 1. **Boolean Conditions**
     - Execute actions based on boolean conditions.
@@ -50,6 +50,14 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 1. **Dynamic Metadata**
     - Update metadata dynamically based on contract state.
     - Example: Update token attributes based on external data.
+
+### Fee Structures
+1. Dynamic Fees
+    - Implement dynamic fee structures based on caller, action, or other conditions.
+    - Example: Charge different fees based on the type of action performed or the user's role.
+
+#### Use-cases
+- Implementing a flexible fee system that adjusts based on user actions or roles.
 
 ## Key Hook Patterns
 
