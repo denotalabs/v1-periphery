@@ -18,6 +18,10 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
     - Utilize statements or claims made by an entity about a subject, which can be verified by others.
     - Example: Use attestations to confirm the identity of a user or the validity of a transaction.
 
+4. **Allow/deny lists**
+    - Set or maintain lists of allowed or denied addresses for nota interaction
+    - Example: Disallow sanctioned addresses from being transferred notas and/or prevent sales on secondary markets.
+
 #### Use-cases
 - KYC/AML of sending/receiving funds by checking the from and to accounts.
 - Trust-minimized payment management by 3rd parties or subcommittees
@@ -31,6 +35,10 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 2. **Linear Unlock**
     - Gradually unlock funds over a specified period.
     - Example: Vesting schedules for token distributions.
+
+2. **Expiration Dates**
+    - Allow funds to be clawed back before or after an expiration date
+    - Example: 
 
 #### Use-cases
 - Minimize trust by having a default unlock/return of funds after some expiration date
@@ -50,17 +58,52 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 1. **Dynamic Metadata**
     - Update metadata dynamically based on contract state.
     - Example: Update token attributes based on external data.
+2. **Metadata Requirements**
+    - Require specific metadata to be set before an action can be performed.
+    - Example: Require a title, description, and image to be set before a nota can be minted.
+
+3. **Metadata Access Control**
+    - Implement access control mechanisms based on metadata.
+    - Example: Restrict access to certain actions based on metadata attributes.
+
+4. **Hook Specific Metadata**
+    - Use metadata to set hook-specific variables
+    - Example: Set a settlement delay, administrator, or other hook-specific variables in metadata that can be displayed in the tokenURI
+
+#### Use-cases
+- Enforce memos be set before a creating a nota
+
+### Fee Mechanisms
+
+1. **Enforced Royalties**
+    - Implement royalty mechanisms to ensure creators receive a share of secondary sales.
+    - Example: Automatically distribute royalties to creators when a nota is transferred.
 
 ### Fee Structures
-1. Dynamic Fees
+1. **Fixed Fees**
+    - Implement fixed fee structures for transactions.
+    - Example: Charge a fixed fee for each transaction.
+
+2. **Dynamic Fees**
     - Implement dynamic fee structures based on caller, action, or other conditions.
     - Example: Charge different fees based on the type of action performed or the user's role.
 
 #### Use-cases
 - Implementing a flexible fee system that adjusts based on user actions or roles.
 
+### Miscellaneous
+
+1. **(Un)conditional (non)transferability**
+    - Allow or disallow the transfer of notas based on certain conditions.
+    - Example: Restrict transfers until a timelock expires.
+
+2. **Counters**
+    - Implement counters to track the number of interactions.
+    - Example: Limit the number of times a user can perform a specific action.
+
 ## Key Hook Patterns
 
+### State
 1. **Stateless**
 - The hook stores no data it just validates parameters
 
@@ -69,6 +112,13 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 
 3. **Global State**
 - Notas depend on global state which lives either inside the hook or referencing other contracts
+
+### Conditions
+1. **Nota Specific**
+- Each nota can set it's variables on write such as expiration date, arbitrator, etc
+
+2. **Hook Specific**
+- Every Nota uses the hook-encoded variables such as settlement delay, administrator, etc
 
 ## Example Implementations
 ### [BaseHook.sol](./BaseHook.sol)
