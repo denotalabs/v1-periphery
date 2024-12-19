@@ -22,6 +22,10 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
     - Set or maintain lists of allowed or denied addresses for nota interaction
     - Example: Disallow sanctioned addresses from being transferred notas and/or prevent sales on secondary markets.
 
+5. **Ownable**
+    - Implement ownership mechanisms to control access to certain actions or functions.
+    - Example: Restrict the ability to mint new notas to the contract owner.
+
 #### Use-cases
 - KYC/AML of sending/receiving funds by checking the from and to accounts.
 - Trust-minimized payment management by 3rd parties or subcommittees
@@ -43,16 +47,6 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 #### Use-cases
 - Minimize trust by having a default unlock/return of funds after some expiration date
 
-### External Contract Conditions
-
-1. **Boolean Conditions**
-    - Execute actions based on boolean conditions.
-    - Example: Release funds only if a certain condition is met.
-
-2. **Threshold Conditions**
-    - Execute actions based on numerical thresholds.
-    - Example: Release funds if a certain value exceeds a threshold.
-
 ### Metadata Management
 
 1. **Dynamic Metadata**
@@ -70,26 +64,18 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
     - Use metadata to set hook-specific variables
     - Example: Set a settlement delay, administrator, or other hook-specific variables in metadata that can be displayed in the tokenURI
 
+### External Contract Conditions
+
+1. **Boolean Conditions**
+    - Execute actions based on boolean conditions.
+    - Example: Release funds only if a certain condition is met.
+
+2. **Threshold Conditions**
+    - Execute actions based on numerical thresholds.
+    - Example: Release funds if a certain value exceeds a threshold.
+
 #### Use-cases
 - Enforce memos be set before a creating a nota
-
-### Fee Mechanisms
-
-1. **Enforced Royalties**
-    - Implement royalty mechanisms to ensure creators receive a share of secondary sales.
-    - Example: Automatically distribute royalties to creators when a nota is transferred.
-
-### Fee Structures
-1. **Fixed Fees**
-    - Implement fixed fee structures for transactions.
-    - Example: Charge a fixed fee for each transaction.
-
-2. **Dynamic Fees**
-    - Implement dynamic fee structures based on caller, action, or other conditions.
-    - Example: Charge different fees based on the type of action performed or the user's role.
-
-#### Use-cases
-- Implementing a flexible fee system that adjusts based on user actions or roles.
 
 ### Miscellaneous
 
@@ -100,6 +86,12 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 2. **Counters**
     - Implement counters to track the number of interactions.
     - Example: Limit the number of times a user can perform a specific action.
+
+### Fee Mechanisms
+
+1. **Enforced Royalties**
+    - Implement royalty mechanisms to ensure creators receive a share of secondary sales.
+    - Example: Automatically distribute royalties to creators when a nota is transferred.
 
 ## Key Hook Patterns
 
@@ -119,6 +111,18 @@ This guide aims to inspire and educate hook developers by providing ideas and ex
 
 2. **Hook Specific**
 - Every Nota uses the hook-encoded variables such as settlement delay, administrator, etc
+
+### Fee Structures
+1. **Fixed Fees**
+    - Implement fixed fee structures for transactions.
+    - Example: Charge a fixed fee for each transaction.
+
+2. **Dynamic Fees**
+    - Implement dynamic fee structures based on caller, action, or other conditions.
+    - Example: Charge different fees based on the type of action performed or the user's role.
+
+#### Use-cases
+- Implementing a flexible fee system that adjusts based on user actions or roles.
 
 ## Example Implementations
 ### [BaseHook.sol](./BaseHook.sol)
